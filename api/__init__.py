@@ -1,4 +1,6 @@
 from apiflask import APIFlask
+
+from api.config import BaseConfig
 from .extensions import *
 from dotenv import load_dotenv
 from .user.controllers import user
@@ -10,6 +12,9 @@ load_dotenv()
 
 def create_app():
     app = APIFlask(__name__, title="xpense API", version="1.0.0")
+
+    # Flask application configurations
+    app.config.from_object(BaseConfig)
 
     # Flask application extensions
     db.init_app(app)

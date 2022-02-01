@@ -1,5 +1,9 @@
 import pytest
 from api import create_app
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 @pytest.fixture
 def app():

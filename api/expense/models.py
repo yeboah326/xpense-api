@@ -5,7 +5,7 @@ import datetime
 class Expense(db.Model):
     __tablename__ = "xp_expense"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    amount = db.Column(db.Integer, nullable=False)
+    amount = db.Column(db.Numeric(6,2), nullable=False)
     description = db.Column(db.String(100), nullable=True)
     date = db.Column(db.Date(),
                      default=datetime.datetime.now(),

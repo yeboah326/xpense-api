@@ -35,7 +35,7 @@ def expense_new(data):
 @expense.get("/<int:id>")
 @doc(summary="Get expense",
      description="An endpoint to get a single expense by id",
-     responses=[200, 400, 401, 404])
+     responses=[200, 401, 404])
 @output(ExpenseDump, 200)
 @jwt_required()
 def expense_get_by_id(id):
@@ -50,7 +50,7 @@ def expense_get_by_id(id):
 
     raise HTTPError(404,
                     message="Expense not found",
-                    detail="The given id does not match an existing id")
+                    detail="The given id does not match an existing expense")
 
 
 @expense.put("/<int:id>")
@@ -79,7 +79,7 @@ def expense_edit_by_id(id, data):
 
     raise HTTPError(404,
                     message="Expense not found",
-                    detail="The given id does not match an existing id")
+                    detail="The given id does not match an existing expense")
 
 
 @expense.delete("/<int:id>")
@@ -100,11 +100,11 @@ def expense_delete_by_id(id):
         db.session.delete(expense)
         db.session.commit()
 
-        return {"message": "Expense delete successfully"}, 200
+        return {"message": "Expense deleted successfully"}, 200
 
     raise HTTPError(404,
                     message="Expense not found",
-                    detail="The given id does not match an existing id")
+                    detail="The given id does not match an existing expense")
 
 
 @expense.get("/")
@@ -136,7 +136,7 @@ def expense_get_summary():
     return expense_summary
 
 
-@expense.get("/month<int:index>")
+@expense.get("/month/<int:index>")
 @doc(summary="Get all expenses for the month",
      description="An endpoint to get all user expenses for the given month")
 @output(ExpenseMonthSumary, 200)

@@ -18,9 +18,9 @@ class ExpenseDump(Schema):
 class ExpenseSummary(Schema):
     today = Float(required=True)
     seven_days = Float(required=True)
-    thirty_day = Float(required=True)
-    sixy_days = Float(required=True)
+    thirty_days = Float(required=True)
+    sixty_days = Float(required=True)
 
 class ExpenseMonthSumary(Schema):
     expenses = List(Nested(ExpenseDump),required=True)
-    expense_total_sum = Float(required=True)
+    expenses_total_sum = Float(required=True)

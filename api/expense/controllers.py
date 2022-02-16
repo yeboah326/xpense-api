@@ -3,9 +3,9 @@ from api.extensions import db
 from api.generic_schema import GenericResponse
 from api.user.models import User
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from .schema import ExpenseDump, ExpenseLoad, ExpenseMonthSumary, ExpenseSummary
+from .schema import ExpenseAll, ExpenseDump, ExpenseLoad, ExpenseMonthSumary, ExpenseSummary, ExpenseAllMonthsSummary
 from .models import Expense
-from .utils import generate_user_month_summary, generate_user_summary
+from .utils import generate_user_month_summary, generate_user_summary, generate_user_all_months_summary
 
 expense = APIBlueprint("expense", __name__, url_prefix="/api/expense")
 
@@ -111,15 +111,15 @@ def expense_delete_by_id(id):
 @doc(summary="Get all expenses",
      description="An endpoint to get all expenses",
      responses=[200, 400, 401])
-@output(ExpenseDump(many=True), 200)
+@output(ExpenseAll, 200)
 @jwt_required()
 def expense_get_all():
     # Retrieve the user
     user = User.find_user_by_public_id(get_jwt_identity())
 
-    expenses = Expense.find_expenses_by_user_id(user.id)
+    all_month_summary = generate_user_all_months_summary(user.id)
 
-    return expenses
+    return all_month_summary
 
 
 @expense.get("/summary")
